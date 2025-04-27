@@ -19,69 +19,114 @@ Usage:
 -------------------------------------------------------------------------------
  Author: Marcos Antonio de Castilho Junior
  Created: 2025-04-26
+ Updated: 2025-04-29
  Python Version: 3.12
 ===============================================================================
 """
 
 import time
-import os
 
 
-shopping_list = []
+user_list = {}
 DELAY = 1
 
 
-def clear_screen():
-    """
-    Clears the console screen based on the operating system.
-    """
-    os.system('cls' if os.name == 'nt' else 'clear')
 
 
-def show_list():
+def show_list(shopping_list):
     """
     Displays the current shopping list.
 
-    If the list is empty, it notifies the user. Otherwise, it prints each item in the list.
+    Features
+    ========
+    - Shows a message if the shopping list is empty.
+    - Otherwise, prints each item with its quantity.
+
+    Parameters
+    ==========
+    shopping_list : dict
+        The shopping list to display, where the key is the item name and the value is the quantity.
+
+    Returns
+    =======
+    None
     """
     if not shopping_list:
         time.sleep(DELAY)
         print("Your shopping list is empty.")
     else:
         print("\n🛒 Your shopping list:")
-        for item in shopping_list:
-            print(f"• {item}")
-        print()
+        for item, value in shopping_list.items():
+            print(f"•Item: {item} - Quantity: {value} ")
 
 
-def add_to_list():
+
+
+def add_item_to_list(shopping_list):
     """
-    Prompts the user to add one or more items to the shopping list.
+    Prompts the user to add one or more items to the shopping list with specified quantities.
 
-    Accepts items separated by commas or spaces. Duplicate entries are ignored.
+    Features
+    ========
+    - Accepts multiple items separated by commas or spaces.
+    - Asks for a quantity for each new item.
+    - Validates the quantity (must be a positive integer).
+    - Allows the user to skip specifying a quantity (marks as "Quantity not specified").
 
-    Example:
-        Input: "apples, bananas oranges"
-        Adds: ["Apples", "Bananas", "Oranges"]
+    Returns
+    =======
+    dict
+        The updated shopping list with new items added.
 
-    :return: None
+    Examples
+    ========
+    Example 1:
+    User inputs: apples, bananas
+    Then inputs: 4 for apples, 6 for bananas.
+
+    Example 2:
+    User inputs: bread
+    Then inputs: 0 (quantity not specified).
+
+    Example 3:
+    User inputs an invalid quantity like "two"
+    Prompted again until a valid number is entered.
     """
     new_items = input("Please enter new item(s) to add (separated by comma or space): ")
+    # Prompts the user to input items separated by commas or spaces.
     if new_items == "":
-        return
+        return shopping_list
     cleaned_input = new_items.replace(",", " ")
+    # Replaces commas with spaces to standardize separation.
     items = cleaned_input.split()
+    # Splits the input string into a list of items using spaces as separators.
     for item in items:
-        formatted_item = item.strip().title()
-        if formatted_item in shopping_list:
-            print(f"{formatted_item} is already in your shopping list.")
+        item_to_verify = item.strip().title()
+        if item_to_verify in user_list:
+            print(f"{item_to_verify} is already in your shopping list.")
         else:
-            shopping_list.append(formatted_item)
-            time.sleep(DELAY)
-            print(f"{formatted_item} added to shopping list.")
+            while True:
+                try:
+                    quantity = int(input(f"Enter quantity for {item_to_verify}: "))
+                    if quantity < 0:
+                        print("Quantity must be a positive number.")
+                        continue
+                    elif quantity == 0:
+                        print(f"No quantity specified for {item_to_verify}. It has been added to your list.")
+                        shopping_list[item_to_verify] = "Quantity not specified"
+                        break
+                    else:
+                        shopping_list[item_to_verify] = quantity
+                        break
+                except ValueError:
+                    print("Invalid input. Please enter a valid number.")
+    return shopping_list
 
 
-def remove_from_list():
+
+
+
+def remove_from_list(shopping_list):
     """
     Prompts the user to remove one or more items from the shopping list.
 
@@ -91,29 +136,35 @@ def remove_from_list():
         Input: "apples, bananas"
         Removes: any matching items currently in the list
 
-    :return: None
+    Returns
+    =======
+    dict
+        The updated shopping list with specified items removed.
     """
     items_to_remove = input("Please enter item(s) to remove (separated by comma or space), or press enter to cancel: ")
     if items_to_remove == "":
-        return
+        return shopping_list
     cleaned_input = items_to_remove.replace(",", " ")
     items = cleaned_input.split()
     for item in items:
         formatted_item = item.strip().title()
         if formatted_item in shopping_list:
-            shopping_list.remove(formatted_item)
+            del shopping_list[formatted_item]
             time.sleep(DELAY)
             print(f"{formatted_item} removed from shopping list.")
         else:
             time.sleep(DELAY)
             print(f"{formatted_item} is not in your shopping list.")
+    return shopping_list
 
 
 def welcome_message():
     """
     Displays the initial welcome message when the application starts.
 
-    :return: None
+    Returns
+    =======
+    None
     """
     print("Welcome to your shopping list app!")
     print("What would you like to do today?\n")
@@ -129,7 +180,9 @@ def menu():
     - 3: Remove item(s) from the shopping list
     - 4: Quit the application
 
-    :return: None
+    Returns
+    =======
+    None
     """
     print("Enter '1' to list your current shopping list.\n")
     print("Enter '2' to add an item to your shopping list.\n")
@@ -142,18 +195,17 @@ if __name__ == "__main__":
     welcome_message()
 
     while True:
-        clear_screen()
         menu()
         choice = input()
         if choice == "1":
-            show_list()
+            show_list(user_list)
         elif choice == "2":
-            add_to_list()
+            user_list = add_item_to_list(user_list)
         elif choice == "3":
-            remove_from_list()
+            user_list = remove_from_list(user_list)
         elif choice == "4":
             print("Thank you for using your shopping list app!")
             break
         else:
             time.sleep(DELAY)
-            print("Invalid choice. Please try again.")
+            print("Invalid choice. Please try again and use a number between 1 and 4.")
