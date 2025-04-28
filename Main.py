@@ -55,7 +55,7 @@ def show_list(shopping_list):
         time.sleep(DELAY)
         print("Your shopping list is empty.")
     else:
-        print("\n🛒 Your shopping list:")
+        print("\n Your shopping list:")
         for item, value in shopping_list.items():
             print(f"•Item: {item} - Quantity: {value} ")
 
