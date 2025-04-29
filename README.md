@@ -76,4 +76,4 @@ python3 main.py
 **Marcos Antonio de Castilho Junior**  
 Technology and Programming Student | GitHub: [@castilhomarcos](https://github.com/castilhomarcos)
 
-> 🚀 This project was developed as part of my personal journey to master Python fundamentals and Git/GitHub version control best practices.
+> This project was developed as part of my personal journey to master Python fundamentals and Git/GitHub version control best practices.
