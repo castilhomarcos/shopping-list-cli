@@ -18,7 +18,10 @@ This project was developed as part of my intensive study of Python programming f
 - Input Validation and Sanitization  
 - Error Handling (`try/except`)  
 - Professional Docstring Documentation  
-- Modular Code Structure
+- Modular Code Structure  
+- User Input Handling Function  
+- Item Update Functionality  
+- Menu Navigation Using Dictionary Mapping
 
 ## About the Project
 
@@ -26,8 +29,10 @@ The Shopping List CLI is a command-line application that allows users to:
 
 - Add multiple items to a shopping list with quantity tracking
 - Remove items from the shopping list
+- Update the quantity of an existing item
 - View all items and quantities currently listed
-- Handle and validate user input gracefully
+- Handle and validate user input gracefully through a dedicated input handling function
+- Navigate the menu using a dictionary structure that maps user choices directly to functions, improving code clarity and organization
 - Structure the code using modular functions, with parameters and return values
 - Follow professional clean coding practices and documentation standards
 
@@ -36,7 +41,7 @@ The Shopping List CLI is a command-line application that allows users to:
 - Python 3.12
 - Terminal / CLI
 
-##  How to Run the Project
+## How to Run the Project
 
 1. Clone the repository:
 
@@ -44,13 +49,13 @@ The Shopping List CLI is a command-line application that allows users to:
 git clone git@github.com:castilhomarcos/shopping-list-cli.git
 ```
 
-2. Navigate to the project folder:
+1. Navigate to the project folder:
 
 ```bash
 cd shopping-list-cli
 ```
 
-3. Run the script:
+1. Run the script:
 
 ```bash
 python3 main.py
@@ -66,7 +71,7 @@ python3 main.py
 
 ---
 
-##  Author
+## Author
 
 **Marcos Antonio de Castilho Junior**  
 Technology and Programming Student | GitHub: [@castilhomarcos](https://github.com/castilhomarcos)
